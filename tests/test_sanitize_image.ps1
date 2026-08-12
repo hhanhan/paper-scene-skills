@@ -523,7 +523,30 @@ try {
     Assert-True ($existingInvocation.Stderr -match 'OutputPath already exists') 'Existing-output rejection returned an unexpected error.'
     Assert-True ((Get-FileHash -LiteralPath $existingOutput -Algorithm SHA256).Hash -eq $existingHash) 'Existing output changed after rejection.'
 
-    Write-Output 'sanitize_image.ps1 regression tests passed (orientations 1-8, metadata, source immutability, and negative paths).'
+    $oversizedInput = Join-Path $testDirectory 'negative-oversized.jpg'
+    $oversizedStream = $null
+    try {
+        $oversizedStream = [System.IO.FileStream]::new(
+            $oversizedInput,
+            [System.IO.FileMode]::CreateNew,
+            [System.IO.FileAccess]::Write,
+            [System.IO.FileShare]::None
+        )
+        $oversizedStream.SetLength(50MB + 1)
+    }
+    finally {
+        if ($null -ne $oversizedStream) {
+            $oversizedStream.Dispose()
+        }
+    }
+    $oversizedOutput = Join-Path $testDirectory 'negative-oversized.png'
+    $oversizedError = Join-Path $testDirectory 'negative-oversized.stderr.txt'
+    $oversizedInvocation = Invoke-Sanitizer -InputPath $oversizedInput -OutputPath $oversizedOutput -ErrorPath $oversizedError
+    Assert-True ($oversizedInvocation.ExitCode -ne 0) 'Sanitizer unexpectedly accepted an input larger than 50 MiB.'
+    Assert-True ($oversizedInvocation.Stderr -match 'exceeds the 50 MiB sanitizer limit') 'Oversized-input rejection returned an unexpected error.'
+    Assert-True (-not [System.IO.File]::Exists($oversizedOutput)) 'Oversized-input rejection created an output.'
+
+    Write-Output 'sanitize_image.ps1 regression tests passed (orientations 1-8, metadata, source immutability, resource limit, and negative paths).'
 }
 finally {
     Remove-SafeTestDirectory -Path $testDirectory

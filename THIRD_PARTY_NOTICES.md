@@ -26,9 +26,9 @@ The upstream two-route concept and paper-editorial approach informed this projec
 
 This is not a strict clean-room implementation: upstream public materials were reviewed and influenced the resulting work. This repository is an independent project and is not affiliated with, sponsored by, endorsed by, or an official continuation of Zeejay0 or the upstream project.
 
-No upstream brand assets, source or example photographs, or upstream finished/generated images are included. This repository distributes text instructions, configuration, and source code only.
+No upstream brand assets or upstream source, example, or finished/generated images are included. The repository includes only the maintainer-provided example media identified in [EXAMPLES_NOTICE.md](EXAMPLES_NOTICE.md), which is not sourced from the upstream project.
 
-For the modification notice required by section 2(c) of the root LICENSE: `LICENSE` and `LICENSES/UPSTREAM-MIT.txt` are the only files reproduced unchanged from their cited sources. Every other file in this repository is newly authored or has been rewritten or modified for this project. In particular, both `paper-scene-*` directories are rewritten Skill packages; the root documentation, validation workflow, and scripts are new project materials.
+For the modification notice required by section 2(c) of the root LICENSE: `LICENSE` and `LICENSES/UPSTREAM-MIT.txt` are the only files reproduced unchanged from their cited sources. Every other file in this repository is newly authored or has been rewritten or modified for this project. In particular, both `paper-scene-*` directories are rewritten Skill packages; the root documentation, validation workflow, scripts, `EXAMPLES_NOTICE.md`, and `examples/country-house-sunset/*` are new project materials.
 
 ## Modifications and new contributions
 

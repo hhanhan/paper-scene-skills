@@ -15,6 +15,30 @@ private/
 *.[tT][iI][fF][fF]
 *.[hH][eE][iI][cC]
 *.[hH][eE][iI][fF]
+*.[aA][pP][nN][gG]
+*.[aA][vV][iI][fF]
+*.[iI][cC][oO]
+*.[jJ]2[kK]
+*.[jJ][pP]2
+*.[jJ][xX][lL]
+*.[pP][sS][dD]
+*.[sS][vV][gG]
+*.[aA][iI]
+*.[cC][rR]2
+*.[dD][nN][gG]
+*.[eE][pP][sS]
+*.[kK][rR][aA]
+*.[nN][eE][fF]
+*.[oO][rR][fF]
+*.[rR][aA][fF]
+*.[rR][aA][wW]
+*.[rR][wW]2
+*.[xX][cC][fF]
+
+# Public example set: exact paths only. All other bitmap images stay ignored.
+!examples/country-house-sunset/input.png
+!examples/country-house-sunset/retained-photo-collage.png
+!examples/country-house-sunset/source-free-recompose.png
 
 # Temporary files and local caches
 tmp/

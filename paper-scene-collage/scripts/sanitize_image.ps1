@@ -10,6 +10,8 @@ param(
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+$MaxInputBytes = 50MB
+$MaxDecodedPixels = 50000000
 
 try {
     Add-Type -AssemblyName System.Drawing
@@ -92,6 +94,10 @@ try {
         throw "Input is not a file: $InputPath"
     }
     $sourceFullPath = [System.IO.Path]::GetFullPath($resolvedInput.ProviderPath)
+    $sourceLength = [System.IO.FileInfo]::new($sourceFullPath).Length
+    if ($sourceLength -gt $MaxInputBytes) {
+        throw "Input exceeds the 50 MiB sanitizer limit: $sourceLength bytes"
+    }
 
     if ([string]::IsNullOrWhiteSpace($OutputPath)) {
         $outputFullPath = Join-Path ([System.IO.Path]::GetTempPath()) (
@@ -123,6 +129,16 @@ try {
     $outputStream = $null
     try {
         $source = [System.Drawing.Image]::FromFile($sourceFullPath, $true)
+        $decodedWidth = $source.Width
+        $decodedHeight = $source.Height
+        if ($decodedWidth -le 0 -or $decodedHeight -le 0) {
+            throw 'The decoded image has invalid dimensions.'
+        }
+        $decodedPixels = [int64]$decodedWidth * [int64]$decodedHeight
+        if ($decodedPixels -gt $MaxDecodedPixels) {
+            throw "Decoded image exceeds the 50 megapixel sanitizer limit: $decodedWidth x $decodedHeight"
+        }
+
         $orientation = Get-ExifOrientation -Image $source
         $rotateFlip = Get-RotateFlipType -Orientation $orientation
         if ($rotateFlip -ne [System.Drawing.RotateFlipType]::RotateNoneFlipNone) {
@@ -131,10 +147,6 @@ try {
 
         $expectedWidth = $source.Width
         $expectedHeight = $source.Height
-        if ($expectedWidth -le 0 -or $expectedHeight -le 0) {
-            throw 'The decoded image has invalid dimensions.'
-        }
-
         $sanitized = [System.Drawing.Bitmap]::new(
             $expectedWidth,
             $expectedHeight,
