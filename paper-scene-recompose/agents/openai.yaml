@@ -1,0 +1,4 @@
+interface:
+  display_name: "纸面语义重构"
+  short_description: "从照片提炼关系、色块与场域，重构成材质丰富且不含源图像素的纸面插画"
+  default_prompt: "Use $paper-scene-recompose to extract a text-only semantic and style blueprint, compare three art directions, and create a materially rich non-photographic paper illustration."

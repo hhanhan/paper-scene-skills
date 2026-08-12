@@ -1,0 +1,4 @@
+interface:
+  display_name: "纸面照片拼贴"
+  short_description: "保留摄影核心，提炼图像形态并编排成层次丰富的纸面编辑拼贴"
+  default_prompt: "Use $paper-scene-collage to extract a source-specific visual grammar and build a layered paper-editorial collage with an interlocked photographic core."
